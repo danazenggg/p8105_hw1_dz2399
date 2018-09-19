@@ -1,11 +1,59 @@
 ---
 title: "p8105_hw1_dz2399"
-author: "DZ"
+author: "Dana Zeng"
 date: "September 19, 2018"
 output: github_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
 ```
+
+### Problem 1
+
+##### Create a data frame comprised of:
+
+* random sample of size 10 from a uniform[0, 5] distribution
+* logical vector indicating whether elements of the sample are greater than 2
+* (length-10) character vector
+* (length-10) factor vector
+```{r}
+df = tibble(
+  vec_numeric = runif(10, min=, max=5),
+  vec_logic = (vec_numeric>2),
+  vec_chr = c('a','b','c','a','b','c','a','b','c','a'),
+  vec_factor = factor(c('a','b','c','a','b','c','a','b','c','a'))
+)
+df
+```
+
+##### Try to take the mean of each variable in your dataframe. What works and what doesn’t? Why?
+```{r}
+mean(df$vec_numeric)
+mean(df$vec_logic)
+mean(df$vec_chr)
+mean(df$vec_factor)
+```
+The mean function works for numeric and logic value (taking true as 1 and false as 0), but it does not work for characters and factor values, returning NA. The reason is that in this case the factors are in characters, so r cannot make this factor and the character column to a numeric value, hence returning NA for means.
+
+##### In some cases, you can explicitly convert variables from one type to another. Write a code chunk that applies the as.numeric function to the logical, character, and factor variables (please show this chunk but not the output). What happens? In a second code chunk, convert your character variable from character to factor to numeric; similarly, convert your factor variable from factor to character to numeric. What happens?
+```{r, eval=F}
+as.numeric(df$vec_logic)
+as.numeric(df$vec_chr)
+as.numeric(df$vec_factor)
+```
+##### What happened is that: 
+* the logical value is turned into: true = 1, false = 0
+* for the factor value, each level is automatically assigned value starting 1 to increasing integers
+* the character value gives the NA
+
+```{r}
+as.numeric(as.factor(df$vec_chr))
+as.numeric(as.character(df$vec_factor))
+```
+
+##### What happened is that:
+* 'character to factor to numeric' returns numerical value, because characters can turned into factors, and then as.numeric assign numbers to each level of the factor.
+* 'factor to character to numeric' returns NAs, because when factors are turned into characters, the as.numeric function will return NA for characters.
 
