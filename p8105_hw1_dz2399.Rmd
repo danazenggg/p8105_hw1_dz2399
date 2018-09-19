@@ -1,0 +1,11 @@
+---
+title: "p8105_hw1_dz2399"
+author: "DZ"
+date: "September 19, 2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
