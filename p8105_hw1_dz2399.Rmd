@@ -57,3 +57,41 @@ as.numeric(as.character(df$vec_factor))
 * 'character to factor to numeric' returns numerical value, because characters can turned into factors, and then as.numeric assign numbers to each level of the factor.
 * 'factor to character to numeric' returns NAs, because when factors are turned into characters, the as.numeric function will return NA for characters.
 
+
+### Problem 2
+
+##### Create a data frame comprised of:
+* x: a random sample of size 1000 from a standard Normal distribution
+* y: a random sample of size 1000 from a standard Normal distribution
+* A logical vector indicating whether the x + y > 0
+* A numeric vector created by coercing the above logical vector
+* A factor vector created by coercing the above logical vector
+
+```{r}
+set.seed(1000)
+df_plot = tibble(
+  x = rnorm(1000),
+  y = rnorm(1000),
+  logic = x+y>0,
+  as_numeric = as.numeric(logic),
+  as_factor = as.factor(logic)
+)
+```
+***
+The sample size of the dataframe is `r dim(df_plot)[1]`, the mean of x is `r mean(df_plot$x)`, the median of x is `r median(df_plot$x)`, the proportion of cases for which the logical vector is TRUE is `r sum(df_plot$logic==T)/dim(df_plot)[1]`
+
+
+##### Make a scatterplot of y vs x; color points using the logical variable (adding color = ... inside of aes in your ggplot code should help). Make a second and third scatterplot that color points using the numeric and factor variables, respectively, and comment on the color scales.
+
+```{r}
+ggplot(df_plot, aes(x = x, y = y,color=logic)) + 
+  geom_point() + ggtitle('Color by logic')
+ggplot(df_plot, aes(x = x, y = y,color=as_numeric)) + 
+  geom_point() + ggtitle('Color by as_numeric')
+ggplot(df_plot, aes(x = x, y = y,color=as_factor)) + 
+  geom_point() + ggtitle('Color by as_factor')
+
+ggsave('plot1_color_by_logic.jpg')
+
+```
+
